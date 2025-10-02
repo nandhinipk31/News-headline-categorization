@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>📰 NEWS HEADING CATEGORIZATION</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #e3f2fd, #bbdefb);
+        }
+        .title {
+            font-family: 'Pacifico', cursive;
+            color: #0d47a1;
+        }
+        .result-card {
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+        }
+        .navbar {
+            background-color: #0d47a1 !important;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-weight: 500;
+        }
+        .footer {
+            background: #0d47a1;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            margin-top: auto;
+        }
+        .progress {
+            height: 25px;
+            border-radius: 12px;
+        }
+        .progress-bar {
+            font-weight: 500;
+            color: white;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">📰 News Classifier</a>
+            <div>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/history">📜 History</a>
+                    </li>
+                    {% if session.get('user_id') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">👤 {{ session['email'] }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">🚪 Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">🔑 Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register">📝 Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container min-vh-100 d-flex flex-column justify-content-center align-items-center text-center">
+        <h1 class="title mb-4">📰 NEWS HEADING CATEGORIZATION</h1>
+        <p class="lead mb-4">Classify news headlines into categories using NLP + Deep Learning</p>
+
+        <!-- Headline Form -->
+        <form method="POST" class="w-75 w-md-50">
+            <input type="text" name="headline" class="form-control mb-3" placeholder="Enter a news headline" required>
+            <button type="submit" class="btn btn-primary w-100">Classify</button>
+        </form>
+
+        <!-- Result Display -->
+        {% if result %}
+            <div class="mt-4 card result-card w-75">
+                {% if result.error %}
+                    <div class="card-body text-danger fw-bold">{{ result.error }}</div>
+                {% else %}
+                    <div class="card-body">
+                        <h4>✅ Category: <span class="badge bg-success">{{ result.category }}</span></h4>
+                        <p>🔎 Confidence:</p>
+                        <div class="progress">
+                            {% set confidence_percent = (result.confidence * 100) if result.confidence <= 1 else result.confidence %}
+                            <div class="progress-bar bg-success" role="progressbar" 
+                                 style="width: {{ confidence_percent }}%;" 
+                                 aria-valuenow="{{ confidence_percent }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                                {{ confidence_percent | round(2) }}%
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto">
+        <p>© 2025 News Classifier | Built with ❤️ using Flask + NLP</p>
+    </footer>
+</body>
+</html>

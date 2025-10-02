@@ -1,0 +1,109 @@
+/* --- Global Styles --- */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to right, #e3f2fd, #bbdefb);
+    margin: 0;
+    padding: 0;
+}
+
+h1.title {
+    font-family: 'Pacifico', cursive;
+    color: #0d47a1;
+    margin-bottom: 1rem;
+}
+
+.container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* --- Navbar --- */
+.navbar {
+    background-color: #0d47a1 !important;
+}
+
+.navbar-brand, .nav-link {
+    color: #fff !important;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    color: #ffeb3b !important;
+}
+
+/* --- Forms --- */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 1rem;
+}
+
+form button {
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    background: #0d47a1;
+    border: none;
+}
+
+form button:hover {
+    background: #1976d2;
+}
+
+/* --- Cards & Results --- */
+.result-card {
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+    margin-top: 1rem;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* --- Table --- */
+.table-container {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.progress {
+    height: 22px;
+    border-radius: 12px;
+}
+
+/* --- Footer --- */
+.footer {
+    background: #0d47a1;
+    color: #fff;
+    padding: 12px;
+    text-align: center;
+    margin-top: auto;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Alerts --- */
+.alert {
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+/* --- Links --- */
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

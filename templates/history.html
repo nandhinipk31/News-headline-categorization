@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>📜 PREDICTION HISTORY</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #f3e5f5, #e1bee7);
+        }
+        .title {
+            font-family: 'Pacifico', cursive;
+            color: #4a148c;
+        }
+        .navbar {
+            background-color: #4a148c !important;
+        }
+        .navbar-brand, .nav-link { color: #fff !important; }
+        .result-card {
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 20px;
+        }
+        .footer {
+            background: #4a148c;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            margin-top: auto;
+        }
+        .progress {
+            height: 25px;
+            border-radius: 12px;
+        }
+        .progress-bar {
+            font-weight: 500;
+            color: white;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">📰 News Classifier</a>
+            <div>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="/history">📜 History</a></li>
+                    {% if session.get('email') %}
+                        <li class="nav-item"><a class="nav-link" href="#">👤 {{ session['email'] }}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/logout">🚪 Logout</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="/login">🔑 Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/register">📝 Register</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Section -->
+    <div class="container flex-grow-1 my-4">
+        <h1 class="title mb-4 text-center">📜 Prediction History</h1>
+
+        {% if history and history|length > 0 %}
+            {% for row in history %}
+                <div class="result-card">
+                    <h5>📰 {{ row.headline }}</h5>
+                    <p>✅ Category: <span class="badge bg-success">{{ row.predicted_category }}</span></p>
+                    <p>🔎 Confidence:</p>
+                    <div class="progress mb-2">
+                        {% set confidence_percent = (row.confidence * 100) if row.confidence <= 1 else row.confidence %}
+                        <div class="progress-bar bg-success" role="progressbar" 
+                             style="width: {{ confidence_percent }}%;" 
+                             aria-valuenow="{{ confidence_percent }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                            {{ confidence_percent | round(2) }}%
+                        </div>
+                    </div>
+                    <small class="text-muted">🕒 {{ row.created_at }}</small>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info mt-4 text-center">No predictions yet. Try classifying a headline first!</div>
+        {% endif %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto">
+        <p>© 2025 News Classifier | Built with ❤️ using Flask + NLP</p>
+    </footer>
+</body>
+</html>

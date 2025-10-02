@@ -1,0 +1,11 @@
+scikit-learn
+numpy
+pandas
+matplotlib
+nltk
+fastapi
+uvicorn
+streamlit
+requests
+httpx>=0.25.0,<1
+deep-translator
